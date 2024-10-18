@@ -6,7 +6,9 @@ wishlist
 
 top 5 selling
 
-offerscart/payment
+offers
+
+cart/payment
 
 tarbet home
 
