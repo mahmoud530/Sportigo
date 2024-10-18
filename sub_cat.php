@@ -24,7 +24,7 @@ if(isset($_GET['cat'])){
 <body>
     <?php foreach($run_select_sub as $data){?>
         <a href="products.php?sub=<?php echo $data['sub_id'] ?>">
-            <button>        <?php echo $data['sub_name']?>
+            <button><?php echo $data['sub_name']?>
             </button> 
         </a>
         <?php } ?>
