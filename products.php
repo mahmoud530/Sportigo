@@ -1,6 +1,8 @@
 <?php 
 include("connection.php");
 // include("nav.php");
+$user_id=$_SESSION['user_id'];
+
 if(isset($_GET['sub'])){
     // $cat_id=$_GET['cat_id'];
     $sub_id=$_GET['sub'];
@@ -22,6 +24,10 @@ if(isset($_GET['sub'])){
     <?php foreach($run_select_product as $data) { ?>
         <?php echo $data['product_name']?>
         <?php echo $data['product_price']?>
+        <a href="product_details.php?pro=<?php echo $data['product_id']?>" class="">
+                <button>Details</button>
+            </a>
         <?php } ?>
+       
 </body>
 </html>
