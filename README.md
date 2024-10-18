@@ -15,3 +15,9 @@ cart/payment
 tarbet home
 
 tarbet sign/login
+
+table ll orders
+
+remember me
+
+duplicate photo path
