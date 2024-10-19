@@ -1,10 +1,14 @@
 # Sportigo
        #TASKS youm elsabt 19/10
-Search auto **Allam**
+Search auto **a small pug of product 3l4an fe 2 select product**
 
-tazbetat nav
+tazbetat nav **DONE**
 
-wishlist **Allam/radwan**
+wishlist 
+
+all product +filter sub cat
+
+product page 
 
 top 5 selling **DONE**
 
@@ -12,15 +16,15 @@ offers
 
 cart/payment **DONE**
 
-tarbet home
+tarbet home **in progress**
 
 tarbet sign/login
 
-table ll orders **sarah**
+table ll orders **DONE**
 
 remember me
 
-duplicate photo path **Allam**
+duplicate photo path 
 
 sql injection
 
