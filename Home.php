@@ -1,11 +1,31 @@
 <?php
 include("connection.php");
+$user_id=$_SESSION['user_id'];
 // SELECT Categories
 $select_cat="SELECT * FROM `category`";
 $run_select_cat=mysqli_query($connect , $select_cat);
 //SELECT new arrival 
-$select_product="SELECT * FROM `products` order by 'product_id' desc limit 1";
+$select_product="SELECT * FROM `products` order by 'product_id' desc limit 2";
 $run_select_product=mysqli_query($connect , $select_product);
+// SEARCH
+$search_result = [];
+if(isset($_POST['text'])){
+    $text = mysqli_real_escape_string($connect, $_POST['text']);
+    $select_search = "SELECT * FROM `products` WHERE `product_name` LIKE '%$text%'";
+    $run_select_search = mysqli_query($connect, $select_search);
+    if(mysqli_num_rows($run_select_search) > 0){
+        $search_result = mysqli_fetch_all($run_select_search, MYSQLI_ASSOC);
+    }
+}
+// wishlist
+if(isset($_POST['wishlist'])){
+    $id=$_POST['id'];
+    $insert_wishlist="INSERT INTO `wishlist` values(NULL,'$user_id',$id)";
+    $run_insert_wishlist=mysqli_query($connect, $insert_wishlist);
+
+}
+
+
 ?>
         
 <!DOCTYPE html>
@@ -44,7 +64,6 @@ $run_select_product=mysqli_query($connect , $select_product);
 <body>
 
     <!-- Navbar -->
-
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Sportigo</a>
@@ -54,7 +73,7 @@ $run_select_product=mysqli_query($connect , $select_product);
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link" aria-current="page" href="#">Home</a>
+                    <a class="nav-link" aria-current="page" href="Home.php">Home</a>
                     <a class="nav-link" href="all_products.php">Products</a>
                     <a class="nav-link" href="#category">Categories</a>
                     <a class="nav-link" href="#offer">Offers</a>
@@ -62,11 +81,14 @@ $run_select_product=mysqli_query($connect , $select_product);
             </div>
 
             <!-- SEARCH -->
-            <form class="d-flex" id="searchForm" onsubmit="search(); return false;">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                
+            <form method="POST" class="d-flex" id="searchForm" onsubmit="search(); return false;">
+                <input class="form-control me-2" onkeyup="search()" type="search" placeholder="Search" name="text" aria-label="Search"
                     id="searchInput"> 
             </form>
+
             <button class="btn-login">
+                
                 Login
             </button>
             <div class="icons collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -85,8 +107,9 @@ $run_select_product=mysqli_query($connect , $select_product);
     </nav>
 
     <!-- end Navbar -->
-
-
+     
+    
+    <div id="searchResults"></div>
 
     <div class="header">
         <div class="progress-container">
@@ -155,11 +178,11 @@ $run_select_product=mysqli_query($connect , $select_product);
                 Our Categories
             </h1>
         </div>
-        <?php foreach($run_select_cat as $row)  { ?>
         <div class="category-cards">
+            <?php foreach($run_select_cat as $row)  { ?>
             <div class="cardd">
                 <a href="sub_cat.php?cat=<?php echo $row['cat_id']?>">
-                    <img src="images/men-image.jpg" alt="">
+                    <img src="images/<?php echo $row['cat_photo'] ?>" alt="">
                 </a>
                 <a href="sub_cat.php?cat=<?php echo $row['cat_id']?>">
                     <button class="cta">
@@ -173,72 +196,41 @@ $run_select_product=mysqli_query($connect , $select_product);
                 
             </div>
 
-            <div class="cardd">
-                <a href="sub_cat.php?cat=<?php echo $row['cat_id']?>">
-                    <img src="images/woman-image.jpg" alt="">
-                </a>
-                <a href="sub_cat.php?cat=<?php echo $row['cat_id']?>">
-                    <button class="cta">
-                        <span><?php echo $row['cat_name'] ?></span>
-                        <svg width="15px" height="10px" viewBox="0 0 13 10">
-                            <path d="M1,5 L11,5"></path>
-                            <polyline points="8 1 12 5 8 9"></polyline>
-                        </svg>
-                    </button>
-                </a>
-            </div>
-
-            <div class="cardd">
-                <a href="sub_cat.php?cat=<?php echo $row['cat_id']?>">
-                    <img src="images/kids-image.jpg" alt="">
-                </a>
-                <a href="sub_cat.php?cat=<?php echo $row['cat_id']?>">
-                    <button class="cta">
-                        <span><?php echo $row['cat_name'] ?></span>
-                        <svg width="15px" height="10px" viewBox="0 0 13 10">
-                            <path d="M1,5 L11,5"></path>
-                            <polyline points="8 1 12 5 8 9"></polyline>
-                        </svg>
-                    </button>
-                </a>
-            </div>
-
+            <?php } ?> 
         </div>
-        <?php } ?> 
     </div>
-
                 <!-- enddddddddd -->
+                 <!-- arrivallllllllllll -->
     <div class="new-products-section">
-
         <div class="new-products-title">
             <h1>
                 New Arrivels
             </h1>
-            <a href="#">
+            <!-- <a href="#">
                 View More<i class="fa-solid fa-chevron-right"></i>
-            </a>
+            </a> -->
         </div>
-
         <div class="new-products-cards ">
-
+        <?php foreach($run_select_product as $row)  { ?>
 
             <div class="myCard">
+                
                 <div class="innerCard">
+                    
                     <div class="frontSide">
-                        <img src="..." alt="">
+                        <img src="./images/<?php echo $row['product_photo']?>" alt="">
                     </div>
                     <div class="backSide">
-                        <p class="title">Product Name</p>
+                        <p class="title"><?php echo $row['product_name']?></p>
                         <a href="#">
-                            Product Details:
+                          
                         </a>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatem, aliquid.</p>
-                        <p>Product Price: <span>999</span>
+                        <p>Product Price:<br> <span><?php echo $row['product_price']?></span>
                         </p>
                         <div class="buttons">
-                            <a href="#" class="buy-btn">
+                            <a href="product_details.php?pro=<?php echo$row['product_id']?>" class="buy-btn">
                                 <button>
-                                    Buy Now
+                                    SHOW MORE
                                 </button>
                             </a>
                             <a href="#" class="add-btn">
@@ -246,20 +238,28 @@ $run_select_product=mysqli_query($connect , $select_product);
                                     Add To Cart
                                 </button>
                             </a>
-                            <a href="#">
+                            <form method="POST">
+                                <input type="hidden" value="<?php echo $row['product_id']?>" name="id">
+                            <button type="submit" name="wishlist">
                                 <i class="fa-regular fa-heart"></i>
-                            </a>
+                            
+                            </button>
+                            </form>
+
+<!--                            
                             <a href="#">
                                 <i class="fa-solid fa-heart"></i>
-                            </a>
-                        </div>
+                            </a> -->
+
+                        </div>                        
                     </div>
+      
                 </div>
+                
+                
             </div>
-
-
-
-
+            <?php } ?> 
+            
             <!-- responsive cards -->
             <div class="card" style="width: 18rem;">
                 <a href="#">
@@ -290,10 +290,6 @@ $run_select_product=mysqli_query($connect , $select_product);
 
 
         </div>
-
-
-
-
     </div>
 
 
@@ -324,7 +320,6 @@ $run_select_product=mysqli_query($connect , $select_product);
                         <a href="#">
                             Product Details:
                         </a>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatem, aliquid.</p>
                         <p>Product Price: <span>999</span>
                         </p>
                         <div class="buttons">
@@ -348,11 +343,6 @@ $run_select_product=mysqli_query($connect , $select_product);
                     </div>
                 </div>
             </div>
-
-
-
-
-
 
             <!-- responsive cards -->
             <div class="card" style="width: 18rem;">
@@ -382,19 +372,9 @@ $run_select_product=mysqli_query($connect , $select_product);
                 </div>
             </div>
 
-
-
-
-
-
         </div>
 
-
-
-
     </div>
-
-
 
 
     <!-- offers card -->
@@ -597,27 +577,64 @@ $run_select_product=mysqli_query($connect , $select_product);
             document.getElementById("myBar").style.width = scrolled + "%";
         }
 
+       // Get the input element
+var searchInput = document.getElementById("searchInput");
 
-        // Get the input element
-        var searchInput = document.getElementById("searchInput");
+// Add an event listener for the 'input' event to make it dynamic
+searchInput.addEventListener("input", function () {
+    let query = searchInput.value; // Get the search query from the input
 
-        // Add an event listener for the 'keydown' event
-        searchInput.addEventListener("keydown", function (event) {
-            // Check if the key pressed is the 'Enter' key (keyCode 13)
-            if (event.key === "Enter") {
-                event.preventDefault(); // Prevent the form from submitting
+    if (query.length > 0) { // Minimum 3 characters to search
+        search(query); // Call the search function
+    } else {
+        // Clear search results if query is too short
+        document.querySelector('.new-products-cards').innerHTML = '';
+    }
+});
 
-                // Call the search function
-                search();
+function search() {
+    let query = document.getElementById("searchInput").value; // Get search query
+    
+    if (query !== '') {
+        // Send an AJAX POST request
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "search.php", true); // Create a new PHP file to handle search
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+        xhr.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                document.getElementById("searchResults").innerHTML = this.responseText;
             }
-        });
+        };
 
-        // The search function that you want to execute
-        function search() {
-            let query = searchInput.value; // Get the search query from the input
-            console.log("Searching for: " + query);
-            // Add your search logic here (e.g., make an AJAX request or redirect)
+        xhr.send("text=" + query); // Send search query to the server
+    }
+}
+
+function search() {
+    let query = document.getElementById("searchInput").value; // Get search query
+
+    // If the input is empty, clear the search results
+    if (query === "") {
+        document.getElementById("searchResults").innerHTML = ""; // Clear search results
+        return; // Exit the function, no need to make an AJAX request
+    }
+
+    // Send an AJAX POST request for non-empty queries
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "search.php", true); // Create a new PHP file to handle search
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            document.getElementById("searchResults").innerHTML = this.responseText;
         }
+    };
+
+    xhr.send("text=" + query); // Send search query to the server
+}
+
+
 
 
 
