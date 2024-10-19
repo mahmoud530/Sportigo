@@ -23,3 +23,5 @@ remember me
 duplicate photo path **Allam**
 
 sql injection
+
+my profile
