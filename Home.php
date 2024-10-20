@@ -17,6 +17,7 @@ if(isset($_POST['text'])){
         $search_result = mysqli_fetch_all($run_select_search, MYSQLI_ASSOC);
     }
 }
+
 //top selling
 $select_top = "SELECT *, COUNT(`order_details`.`product_id`) as total_orders FROM `order_details`
     JOIN `products`  ON `order_details`.`product_id` = `products`.`product_id`
