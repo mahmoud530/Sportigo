@@ -288,7 +288,7 @@ if(isset($_POST['wishlist'])){
                         </a>
                         <a href="#">
                             <button class="add-btn">
-                                Add To Cart
+                                 Add To Cart
                             </button>
                         </a>
                     </div>
@@ -325,6 +325,9 @@ if(isset($_POST['wishlist'])){
                     <div class="frontSide">
                         <img src="..." alt="">
                     </div>
+                    <div class="frontSide">
+                        <img src="./images/<?php echo $data['product_photo']?>" alt="">
+                    </div>
                     <div class="backSide">
                         <p class="title"><?php echo $data['product_name']?></p>
                         <a href="#">
@@ -352,8 +355,8 @@ if(isset($_POST['wishlist'])){
                         </div>
                     </div>
                 </div>
-                <?php } ?>
             </div>
+            <?php } ?>
             <?php } ?>
 
             <!-- responsive cards -->
