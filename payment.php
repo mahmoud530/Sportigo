@@ -29,8 +29,6 @@ if (isset($_POST['confirm_order'])) {
         $numeric_price = floatval(preg_replace('/[^0-9.]/', '', $product_price));
         $quantity = $data['quantity'];
         $total_amount = $numeric_price * $quantity;
-
-        // $cart_id = $data['cart_id'];  
     }
 
     $insert_order = "INSERT INTO `order` VALUES (NULL, '$user_id', '$total_amount', '$date', 'pending')";
@@ -51,6 +49,16 @@ if (isset($_POST['confirm_order'])) {
             $insert_order_details = "INSERT INTO `order_details`  
                 VALUES ('$order_id', '$product_id', '$quantity', '$item_total_price')";
             $run_details = mysqli_query($connect, $insert_order_details);
+
+            $select_size="SELECT * FROM `product_size` WHERE `product_id` = $product_id";
+            $run_select_size=mysqli_query($connect, $select_size);
+            $fetch = mysqli_fetch_assoc($run_select_size);
+            $size_id = $fetch['size_id'];
+
+            // Subtract the quantity
+            $update_product_size = "UPDATE `product_size` SET `quantaty`= `quantaty` - $quantity 
+            WHERE `product_id` = '$product_id' AND `size_id` = '$size_id'";
+            $run_update_size = mysqli_query($connect, $update_product_size);
         }
     }
 
