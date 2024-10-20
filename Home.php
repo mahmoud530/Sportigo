@@ -17,6 +17,13 @@ if(isset($_POST['text'])){
         $search_result = mysqli_fetch_all($run_select_search, MYSQLI_ASSOC);
     }
 }
+//top selling
+$select_top = "SELECT *, COUNT(`order_details`.`product_id`) as total_orders FROM `order_details`
+    JOIN `products`  ON `order_details`.`product_id` = `products`.`product_id`
+    GROUP BY `order_details`.`product_id` ORDER BY total_orders DESC LIMIT 5";
+    
+    $run_select_top=mysqli_query($connect, $select_top);
+
 // wishlist
 if(isset($_POST['wishlist'])){
     $id=$_POST['id'];
@@ -307,8 +314,11 @@ if(isset($_POST['wishlist'])){
             </a>
         </div>
 
+<?php
+        if (mysqli_num_rows($run_select_top) > 0) { ?>
         <div class="new-products-cards ">
 
+            <?php foreach($run_select_top as $data){ ?>
 
             <div class="myCard">
                 <div class="innerCard">
@@ -316,11 +326,11 @@ if(isset($_POST['wishlist'])){
                         <img src="..." alt="">
                     </div>
                     <div class="backSide">
-                        <p class="title">Product Name</p>
+                        <p class="title"><?php echo $data['product_name']?></p>
                         <a href="#">
                             Product Details:
                         </a>
-                        <p>Product Price: <span>999</span>
+                        <p>Product Price: <span><?php echo $data['product_price']?></span>
                         </p>
                         <div class="buttons">
                             <a href="#" class="buy-btn">
@@ -342,7 +352,9 @@ if(isset($_POST['wishlist'])){
                         </div>
                     </div>
                 </div>
+                <?php } ?>
             </div>
+            <?php } ?>
 
             <!-- responsive cards -->
             <div class="card" style="width: 18rem;">
