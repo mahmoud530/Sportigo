@@ -1,5 +1,6 @@
 <?php 
 include("connection.php");
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,13 +56,23 @@ include("connection.php");
                 <input class="form-control me-2" onkeyup="search()" type="search" placeholder="Search" name="text" aria-label="Search"
                     id="searchInput"> 
             </form>
+            <form method="POST">
 
-            <button class="btn-login">
-                
-                Login
-            </button>
+            <?php if (empty($_SESSION) || !isset($_SESSION['user_id'])) { ?>
+    <button class="btn-login">
+        Login
+    </button>
+<?php } else { ?>
+    <button class="btn-login "name="logout">
+        Logout
+    </button>
+<?php } ?>
+</from>
+
+             
+            
             <div class="icons collapse navbar-collapse" id="navbarNavAltMarkup">
-                <a href="">
+                <a href="cart.php">
                     <i class="fa-solid fa-cart-shopping"></i>
                 </a>
                 <a href="wishlist.php">
