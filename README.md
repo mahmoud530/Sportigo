@@ -12,7 +12,7 @@ cart/payment                  **DONE**
 
 table ll orders                  **DONE**
 
-remember me
+remember me                     **DONE**
 
 all product +filter sub cat
 
