@@ -1,0 +1,183 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --color1: #163a54;
+    --color2: #f9edde;
+    --color3: #e0cdb5;
+    --color4: #10362b;
+    --color5: #7d9e8e;
+    --color6: #bcd4cc;
+    --color7: #89a072;
+    --color8: #306b95;
+}
+
+body {
+    /* background: linear-gradient(to right, var(--color6), var(--color2), var(--color6)); */
+    background-color: var(--color2);
+}
+.main{
+    display: flex;
+    justify-content: center;
+}
+.container{
+    margin-top: 5%;
+    background-color: var(--color3);
+    display: grid;
+   grid-template-columns: 1fr 1fr;
+   border-radius: 5px;
+  height: 500px;
+    width: 75%;
+    box-shadow: 0px 0px 5px 5px rgba(16,54,43,0.47);
+
+}
+.content{
+    margin-top: 20px;
+    margin-left: 50px;
+}
+.content h1{
+    font-family: "Lily Script One", system-ui;
+    color: var(--color4);
+}
+.content h2{
+    font-family: "Ubuntu", sans-serif;
+    margin-top: 10px;
+    color: var(--color7);
+}
+.content p{
+    margin-top: 20px;
+    padding-right: 20px;
+    margin-bottom: 20px;
+    font-family: "Ubuntu", sans-serif;
+}
+.content .sizes{
+    display: flex;
+}
+.content .title{
+    font-family: "Lily Script One", system-ui;
+    margin-bottom: 20px;
+}
+.content .sizes label{
+   border: 2px solid var(--color4);
+   font-family: "Ubuntu", sans-serif;
+   padding-inline: 13px;
+   padding-top: 5px;
+   padding-bottom: 5px;
+   border-radius: 2px;
+   margin-left: 25px;
+   transition: .3s;
+}
+.content .sizes label:hover{
+   background-color: #10362b;
+   color: #e0cdb5;
+}
+.size.active label {
+    background-color: var(--color4); /* Change to your desired color */
+    color: var(--color2); /* Change text color if needed */
+}
+.content .sizes input{
+   width: 40px;
+  
+}
+.btns{
+    margin-top: 45px;
+    display: flex;
+    gap: 20px;
+    font-family: "Ubuntu", sans-serif;
+
+}
+.btns a{
+    text-decoration: none;
+    border: 2px solid var(--color4);
+    background-color: var(--color4);
+    color: var(--color2);
+    border-radius: 5px;
+    border: none;
+    transition: 0.5s;
+}
+.btns a:hover{
+    background-color: var(--color6);
+    border-color: var(--color4);
+    color: var(--color4);
+}
+.btns button{
+    text-decoration: none;
+    border: 2px solid var(--color4);
+    background-color: var(--color4);
+    padding: 10px 20px;
+    color: var(--color2);
+    border-radius: 5px;
+    transition: 0.5s;
+
+}
+.btns button:hover{
+    background-color: var(--color6);
+    border-color: var(--color4);
+    color: var(--color4);
+}
+
+
+.btnssss{
+    margin-top: 15px;
+    border: 2px solid white;
+    margin-left: 10px;
+    padding: 5px 5px;
+    border-radius: 8px;
+    background-color: white;
+}
+.btnssss button{
+    border: none;
+    outline: none;
+    background-color: transparent;
+   color: var(--color4);
+}
+.btnssss input{
+   text-align: center;
+    background-color: transparent;
+    border: none;
+    padding-left: 10px;
+    color: var(--color4);
+
+}
+.btnssss input:focus{
+    outline: none;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+
+
+.size button{
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    background-color: #fff;
+    color: var(--color1);
+    transition: all 0.2s ;
+}
+
+.size button:hover{
+    background-color: var(--color4);
+    color: var(--color2);
+}
+
+
+@media(max-width:800px){
+    .container{
+        
+        margin-top: 7%;
+        background-color: var(--color3);
+        display: grid;
+       
+       grid-template-columns: auto;
+      height: 60%;
+        width: 500px;
+    }
+    .btns{
+        margin-bottom: 20px;
+        
+    }
+}
