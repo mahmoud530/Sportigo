@@ -1,0 +1,251 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --color1: #163a54;
+    --color2: #f9edde;
+    --color3: #e0cdb5;
+    --color4: #10362b;
+    --color5: #7d9e8e;
+    --color6: #bcd4cc;
+    --color7: #89a072;
+    --color8: #306b95;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    width: 100%;
+    font-family: "Ubuntu", sans-serif;
+    background-color: var(--color2);
+}
+
+header {
+    background-image: linear-gradient(to bottom, var(--color1), var(--color8), var(--color2));
+    padding: 20px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4%;
+}
+
+
+header a {
+    text-decoration: none;
+}
+
+header a button {
+    border: none;
+    border-radius: 20px;
+    padding: 5px 10px;
+    background-color: transparent;
+    color: var(--color2);
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.title {
+    width: 100%;
+    padding: 5px 20px;
+}
+
+.container {
+    width: 100%;
+    padding: 10px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.product-card {
+    width: 250px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.image-container {
+    position: relative;
+    width: 100%;
+    padding: 10px;
+    background-color: #f5f5f5;
+}
+
+.product-image {
+    width: 100%;
+    height: auto;
+    transition: all 0.3s;
+}
+
+.discount-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #ff4d4d;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.image-container .wishlist-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #000;
+    text-decoration: none;
+    border: none;
+    background-color: transparent;
+}
+
+.middle {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.middle .text a button {
+    border: none;
+    border-radius: 20px;
+    padding: 5px 10px;
+    background-color: var(--color2);
+    color: #000;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+
+.image-container:hover .product-image {
+    opacity: 0.3;
+    filter: opacity(-100%);
+}
+
+.image-container:hover .middle {
+    opacity: 1;
+}
+
+.product-info {
+    padding: 15px;
+}
+
+.product-info h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.price {
+    font-size: 14px;
+    color: #999;
+}
+
+.current-price {
+    color: #e60000;
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #999;
+}
+
+
+footer {
+    background-color: var(--color1);
+    color: #fff;
+    padding: 40px 20px;
+    margin-top: 20px;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.footer-column {
+    flex: 1;
+    min-width: 150px;
+    margin: 0 15px;
+}
+
+.footer-column h3 {
+    font-size: 16px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 10px;
+}
+
+.footer-column ul li a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.footer-column ul li a:hover {
+    text-decoration: underline;
+}
+
+.social-icons {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+
+.social-icons a {
+    font-size: 30px;
+    text-decoration: none;
+    color: #fff;
+    transition: all 0.2s;
+}
+
+.social-icons a:hover {
+    color: #000;
+}
+
+
+@media(max-width:800px) {
+
+    header {
+        padding: 10px 10px;
+    }
+
+    header a button {
+        padding: 5px 5px;
+        font-weight: 400;
+        font-size: 15px;
+    }
+
+    .title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
