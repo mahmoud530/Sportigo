@@ -1,6 +1,6 @@
 <?php
 include("nav.php");
-$user_id=$_SESSION['user_id'];
+// $user_id=$_SESSION['user_id'];
 // SELECT Categories
 $select_cat="SELECT * FROM `category`";
 $run_select_cat=mysqli_query($connect , $select_cat);
@@ -8,15 +8,6 @@ $run_select_cat=mysqli_query($connect , $select_cat);
 $select_product="SELECT * FROM `products` order by 'product_id' desc limit 2";
 $run_select_product=mysqli_query($connect , $select_product);
 // SEARCH
-$search_result = [];
-if(isset($_POST['text'])){
-    $text = mysqli_real_escape_string($connect, $_POST['text']);
-    $select_search = "SELECT * FROM `products` WHERE `product_name` LIKE '%$text%'";
-    $run_select_search = mysqli_query($connect, $select_search);
-    if(mysqli_num_rows($run_select_search) > 0){
-        $search_result = mysqli_fetch_all($run_select_search, MYSQLI_ASSOC);
-    }
-}
 
 //top selling
 $select_top = "SELECT *, COUNT(`order_details`.`product_id`) as total_orders FROM `order_details`
@@ -153,7 +144,7 @@ if(isset($_POST['wishlist'])){
                     <img src="images/<?php echo $row['cat_photo'] ?>" alt="">
                 </a>
                 <a href="sub_cat.php?cat=<?php echo $row['cat_id']?>">
-                    <button class="cta">
+                    <button type="button" class="cta">
                         <span><?php echo $row['cat_name'] ?></span>
                         <svg width="15px" height="10px" viewBox="0 0 13 10">
                             <path d="M1,5 L11,5"></path>
@@ -197,7 +188,7 @@ if(isset($_POST['wishlist'])){
                         </p>
                         <div class="buttons">
                             <a href="product_details.php?pro=<?php echo$row['product_id']?>" class="buy-btn">
-                                <button>
+                                <button type ="button">
                                     SHOW MORE
                                 </button>
                             </a>
@@ -208,10 +199,14 @@ if(isset($_POST['wishlist'])){
                             </a>
                             <form method="POST">
                                 <input type="hidden" value="<?php echo $row['product_id']?>" name="id">
+
+                                <?php if (!empty($_SESSION) || isset($_SESSION['user_id'])) { ?>
                             <button type="submit" name="wishlist">
                                 <i class="fa-regular fa-heart"></i>
-                            
                             </button>
+                            <?php } else { ?>
+                                <?php } ?> 
+
                             </form>
 
 <!--                            
@@ -560,31 +555,27 @@ var searchInput = document.getElementById("searchInput");
 searchInput.addEventListener("input", function () {
     let query = searchInput.value; // Get the search query from the input
 
-    if (query.length > 0) { // Minimum 3 characters to search
-        search(query); // Call the search function
+    if (query.length > 0) {
+        search(query); // Call the search function if there's a query
     } else {
-        // Clear search results if query is too short
-        document.querySelector('.new-products-cards').innerHTML = '';
+        // If the search query is empty, restore the original "New Arrivals" content
+        document.querySelector('.new-products-cards').innerHTML = originalNewArrivals;
     }
 });
 
-function search() {
-    let query = document.getElementById("searchInput").value; // Get search query
-    
-    if (query !== '') {
-        // Send an AJAX POST request
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", "search.php", true); // Create a new PHP file to handle search
-        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+function search(query) {
+    // Send an AJAX POST request for non-empty queries
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "search.php", true); // Create a new PHP file to handle search
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-        xhr.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                document.getElementById("searchResults").innerHTML = this.responseText;
-            }
-        };
+    xhr.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            document.querySelector('.new-products-cards').innerHTML = this.responseText;
+        }
+    };
 
-        xhr.send("text=" + query); // Send search query to the server
-    }
+    xhr.send("text=" + query); // Send search query to the server
 }
 
 function search() {
