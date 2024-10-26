@@ -55,7 +55,7 @@ $run_select_cart = mysqli_query($connect, $select_cart);
             <tr>
                 <td colspan="4">
                     
-                      <a href="payment.php"> <button type="submit" name="confirm_order">Confirm Order</button> </a>
+                      <a href="payment.php"> <button type="button" name="confirm_order">Confirm Order</button> </a>
                     
                 </td>
             </tr>
