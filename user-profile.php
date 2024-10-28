@@ -236,7 +236,7 @@ if(isset($_POST['edit-info'])){
 
                     </div>
 
-                    <input type="email" value="<?php echo$data['user_email']?>">
+                    <input type="email" value="<?php echo$data['user_email']?>" readonly >
                     <!-- end email section -->
 
 
