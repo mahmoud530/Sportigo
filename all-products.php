@@ -58,10 +58,17 @@ if (isset($_POST['men'])) {
     JOIN `category` ON `category`.`cat_id`=`sub_category`.`cat_id`
     WHERE `category`.`cat_name`='kids'";
     $RunSelect_kids = mysqli_query($connect, $select_kids);
+
+    
+
+} elseif (isset($_POST['sale'])) {
+    $select_offer = "SELECT * FROM `products` WHERE `on_sale` = 1";
+    $RunSelect_offer = mysqli_query($connect, $select_offer);
 } else {
     $select = "SELECT * FROM `products`";
     $RunSelect = mysqli_query($connect, $select);
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -93,9 +100,8 @@ if (isset($_POST['men'])) {
             <button type="submit" name="men">Men</button>
             <button type="submit" name="women">Women</button>
             <button type="submit" name="kids">Kids</button>
-            <a href="#">
-                <button type="button">Sale</button>
-            </a>
+            <button type="submit" name="sale">Sale</button>
+            
         </form>
     </header>
 
@@ -104,35 +110,47 @@ if (isset($_POST['men'])) {
     </div>
 
     <div class="container">
-        <!-- offer card -->
+        <!-- Sale products -->
+        <?php if (isset($RunSelect_offer) && mysqli_num_rows($RunSelect_offer) > 0) { ?>
         <div class="product-card">
+            <?php foreach($RunSelect_offer as $dataa) { 
+                $originalPrice = floatval(preg_replace('/[^0-9.]/', '', $dataa['product_price']));
+                $discountedPrice = $originalPrice * 0.85;
+            ?>
             <div class="image-container">
-                <a href="#">
-                    <img src="" alt="" class="product-image">
+                <a href="product_details.php?pro=<?php echo $dataa['product_id']; ?>">
+                    <img src="./images/<?php echo $dataa['product_photo']; ?>" alt="" class="product-image">
                 </a>
-                <span class="discount-badge">-35%</span>
-                <button class="wishlist-icon">
-                    <i class="fa-regular fa-heart"></i>
-                </button>
-                <button class="wishlist-icon">
-                    <i class="fa-solid fa-heart"></i>
-                </button>
+                <span class="discount-badge">-15%</span>
+                <form method="POST">
+                    <input type="hidden" value="<?php echo $dataa['product_id']; ?>" name="id">
+                    <?php 
+                    $check_wishlist = "SELECT * FROM `wishlist` WHERE `user_id` = '$user_id' AND `product_id` = '".$dataa['product_id']."'";
+                    $result = mysqli_query($connect, $check_wishlist);
+                    if (mysqli_num_rows($result) == 0) { ?>
+                        <button class="wishlist-icon"><i class="fa-regular fa-heart"></i></button>
+                    <?php } else { ?>
+                        <button class="wishlist-icon"><i class="fa-solid fa-heart" style="color: #db180a;"></i></button>
+                    <?php } ?>
+                </form>
                 <div class="middle">
                     <div class="text">
-                        <a href="#">
-                            <button>View More</button>
+                        <a href="product_details.php?pro=<?php echo $dataa['product_id']; ?>">
+                            <button type="button">View More</button>
                         </a>
                     </div>
                 </div>
             </div>
             <div class="product-info">
-                <h3>SOLARGLIDE 6 SHOES</h3>
+                <h3><?php echo $dataa['product_name']; ?></h3>
                 <p class="price">
-                    <span class="current-price">EGP 5,849.35</span>
-                    <span class="original-price">EGP 8,999.00</span>
+                    <span class="current-price">EGP <?php echo number_format($discountedPrice, 2); ?></span>
+                    <span class="original-price">EGP <?php echo $dataa['product_price'];?></span>
                 </p>
             </div>
+            <?php } ?>
         </div>
+        <?php } ?>
 
         <?php
         if (isset($RunSelect_men)) {
@@ -147,7 +165,7 @@ if (isset($_POST['men'])) {
             foreach ($RunSelect_kids as $data) {
                 renderProductCard($data, $user_id, $connect);
             }
-        } else {
+        } elseif (!isset($RunSelect_offer)) {
             foreach ($RunSelect as $data) {
                 renderProductCard($data, $user_id, $connect);
             }

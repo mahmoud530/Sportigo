@@ -16,7 +16,7 @@ if(isset($_POST['logout']))
 {
     session_unset();
     session_destroy();
-    header("location:login.php");
+    header("location:login and sign up.php");
 }
     // if(!empty($_SESSION['freelancer_id'])){
     //     $id=$_SESSION['freelancer_id'];

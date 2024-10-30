@@ -25,6 +25,10 @@ if(isset($_POST['wishlist'])){
 $add_msg="added to wish list ";
 }
 //add to cart
+//offers
+$select_offer="SELECT * FROM products WHERE on_sale = 1";
+$run_select_offer=mysqli_query($connect, $select_offer);
+
 
 ?>
         
@@ -63,11 +67,6 @@ $add_msg="added to wish list ";
 
 <body>
 
-    <!-- Navbar -->
-    
-
-    <!-- end Navbar -->
-     
     
     <div id="searchResults"></div>
 
@@ -329,103 +328,99 @@ $add_msg="added to wish list ";
 
   
     <!-- offers card -->
-
+    <?php if (mysqli_num_rows($run_select_offer) > 0) { ?>
     <div class="new-products-section" id="offer">
-
         <div class="new-products-title">
-            <h1>
-                Offers
-            </h1>
+            <h1>Offers</h1>
         </div>
+        
+        <div class="new-products-cards">
+            <?php foreach($run_select_offer as $dataa) { 
+                $originalPrice = floatval(preg_replace('/[^0-9.]/', '', $dataa['product_price']));
+                $discountedPrice = $originalPrice * 0.85;
+            ?>
+                <div class="myCard">
+                    <div class="innerCard">
+                        <div class="frontSide">
+                            <img src="./images/<?php echo $dataa['product_photo']; ?>" alt="">
+                            <span>-15%</span>
+                        </div>
+                        <div class="backSide">
+                            <p class="title"><?php echo $dataa['product_name']; ?></p>
 
-        <div class="new-products-cards ">
+                                                      
+                         <p>Product Price: <span><?php echo "L.E" . number_format($discountedPrice, 2); ?>
+                            <br> <del><?php echo $dataa ['product_price'];?></del></span>
+                            <p>
+                            <div class="buttons">
+                            <a href="product_details.php?pro=<?php echo $dataa['product_id']; ?>" class="buy-btn">
+                                <button type="button">SHOW MORE</button>
+                            </a>
+                            <form method="POST">
+                                <input type="hidden" value="<?php echo $dataa['product_id']; ?>" name="id">
 
+                                <?php if (!empty($_SESSION) && isset($_SESSION['user_id'])) { 
+                                    $user_id = $_SESSION['user_id'];
 
-            <div class="myCard">
-                <div class="innerCard">
-                    <div class="frontSide">
-                        <img src="..." alt="">
-                        <span>-15%</span>
-                    </div>
-                    <div class="backSide">
-                        <p class="title">Product Name</p>
-                        <a href="#">
-                            Product Details:
-                        </a>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatem, aliquid.</p>
-                        <p>Product Price: <span>999</span>
-                        </p>
-                        <div class="buttons">
-                            <a href="#" class="buy-btn">
-                                <button>
-                                    Buy Now
-                                </button>
-                            </a>
-                            <a href="#" class="add-btn">
-                                <button>
-                                    Add To Cart
-                                </button>
-                            </a>
-                            <a href="#">
-                                <i class="fa-regular fa-heart"></i>
-                            </a>
-                            <a href="#">
-                                <i class="fa-solid fa-heart"></i>
-                            </a>
+                                    // Check if the product is already in the wishlist
+                                    $check_wishlist = "SELECT * FROM `wishlist` WHERE `user_id` = '$user_id' AND `product_id` = '".$dow['product_id']."'";
+                                    $result = mysqli_query($connect, $check_wishlist);
+
+                                    if (mysqli_num_rows($result) == 0) { ?>
+                                        <button type="submit" name="wishlist">
+                                            <i class="fa-regular fa-heart"></i>
+                                        </button>
+                                    <?php } else { ?>
+                                        <span class="like-icon">
+                                            <i class="fa-solid fa-heart" style="color: #db180a;"></i>
+                                        </span>
+                                    <?php } ?>
+                                <?php } ?>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-
-
-
-
-
+            <?php } ?>
+        </div>
+    </div>
+    <?php }  ?> 
+  
             <!-- responsive cards -->
+            <?php if (mysqli_num_rows($run_select_offer) > 0) { ?>
+                <?php foreach($run_select_offer as $data3) { ?>
 
             <div class="card" style="width: 18rem;">
                 <span>-15%</span>
-                <a href="#">
+                <?php
+            // Check if the product is already in the wishlist
+            $check_wishlist = "SELECT * FROM `wishlist` WHERE `user_id` = '$user_id' AND `product_id` = '".$data3['product_id']."'";
+            $result = mysqli_query($connect, $check_wishlist);
+
+            if (mysqli_num_rows($result) == 0) { ?>
+                <button type="submit" name="wishlist">
                     <i class="fa-regular fa-heart"></i>
-                </a>
-                <a href="#">
-                    <i class="fa-solid fa-heart"></i>
-                </a>
-                <img height="200px" width="100px" src="./images/Arsenal_FC.svg.png" class="card-img-top" alt="...">
+                </button>
+            <?php } else { ?>
+                <span class="like-icon">
+                    <i class="fa-solid fa-heart" style="color: #db180a;"></i>
+                </span>
+            <?php } ?>
+                <img height="200px" width="100px" src="./images/<?php echo $data3['product_photo']; ?>" 
+                class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">Product Name</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
+                    <h5 class="card-title"><?php echo $data3['product_name']; ?></h5>
+                    
                     <div class="btnss">
-                        <a href="#">
-                            <button class="buy-btn">
-                                Buy Now
-                            </button>
-                        </a>
-                        <a href="#">
-                            <button class="add-btn">
-                                Add To Cart
-                            </button>
-                        </a>
+                    <a href="product_details.php?pro=<?php echo $data3['product_id']; ?>">
+                        <button class="buy-btn">Show More</button>
+                    </a>
                     </div>
                 </div>
             </div>
-
-
-
-
-
-
         </div>
-
-
-
-
     </div>
-
-
-
+    <?php } ?>
+    <?php } ?>
 
     <div class="sign-up-section">
         <h1>
