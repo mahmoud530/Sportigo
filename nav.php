@@ -76,7 +76,7 @@ include("connection.php");
                 <a href="cart.php">
                     <i class="fa-solid fa-cart-shopping"></i>
                 </a>
-                <a href="wishlist.php">
+                <a href="wishlist2.php">
                     <i class="fa-solid fa-heart"></i>
                 </a>
                 <a href="profile.php">
